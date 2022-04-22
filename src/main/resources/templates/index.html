@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/basic.css}">
     <script th:src="@{/js/postcode.js}"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -34,7 +35,7 @@
             <input type="text" th:id="name" th:name="name">
 
             <h2>생년월일</h2>
-            <input type="text" th:id="birthDate" th:name="birthDate" placeholder="8자리로 입력해주세요(예: 19990101)">
+            <input type="text" th:id="birthDate" th:name="birthDate" placeholder="8자리로 입력해주세요(예: 19990101)" th:onkeypress="return numCk()">
 
             <h2>휴대폰 번호</h2>
             <input type="text" th:id="phoneNumber" th:name="phoneNumber" placeholder="'-'를 제외하고 입력해 주세요."

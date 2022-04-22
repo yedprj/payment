@@ -69,15 +69,19 @@ function emailCheck() {
     let email = $('#email').val();
     let emailCk = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
-    if (email === ""){
-        alert("이메일을 입력해주세요.");
+
+    if (emailCk.test(email) === false) {
+        alert("이메일 형식에 맞게 입력해 주세요.");
+        $('#email').val("");
+        document.getElementById("email").focus();
         return false;
-    } else {
-        if (emailCk.test(email) === false) {
-            alert("이메일 형식에 맞게 입력해 주세요.");
-            return false;
-        }else {
-            return true;
-        }
+    }else {
+        return true;
     }
+}
+
+function numCk() {
+   if (event.keyCode < 48 || event.keyCode > 57) {
+       event.returnValue = false;
+   }
 }
