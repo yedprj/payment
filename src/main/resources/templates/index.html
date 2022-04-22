@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>CSS Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/basic.css}">
+    <script th:src="@{/js/postcode.js}"></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+
+<h2>서비스 로고 들어갈 자리</h2>
+
+<div class="header">
+    매장 사진 및 설명 들어갈 자리
+</div>
+
+<div class="row">
+    <div class="column" style="background-color:#aaa;">Column</div>
+    <div class="column" style="background-color:#bbb;">Column</div>
+    <div class="column" style="background-color:#ccc;">Column</div>
+</div>
+
+<div class="request_box">
+    <form th:id="frm" th:name="frm" method="post">
+        <h1>등록 신청서</h1>
+        <div class="bMember_info">
+            <h1 style="text-align: left;">기본 회원 정보</h1>
+
+            <h2>이름</h2>
+            <input type="text" th:id="name" th:name="name">
+
+            <h2>생년월일</h2>
+            <input type="text" th:id="birthDate" th:name="birthDate" placeholder="8자리로 입력해주세요(예: 19990101)">
+
+            <h2>휴대폰 번호</h2>
+            <input type="text" th:id="phoneNumber" th:name="phoneNumber" placeholder="'-'를 제외하고 입력해 주세요."
+                    class="short_input" maxlength="11" >
+            <input type="button" value="인증받기" onclick="" class="phone_check black_button">
+
+            <h2>e-mail</h2>
+            <input type="email" th:id="email" th:name="email" onchange="emailCheck()">
+
+            <h2>주소</h2>
+            <input type="text" th:id="zone_no" th:name="zone_no" onclick="findAddress()" readonly style="width: 30%;">
+            <input type="text" th:id="adres" th:name="adres" onclick="findAddress()" readonly style="width: 50%">
+            <input type="button" onclick="findAddress()" value="주소 찾기" class="black_button">
+            <input type="text" th:id="adres_det" th:name="adres_det" placeholder="상세주소를 입력해 주세요."  style="margin-top:0">
+        </div>
+
+        <div class="member_info">
+            <h1 style="text-align: left;">회원 등록 정보</h1>
+
+            <!-- 희망 운동 선택 부분-->
+            <h2 style="float: left; margin-right:10px; ">희망 운동</h2>
+            <span>최대 3개까지 선택 가능합니다.</span>
+            <div class="check_box_info" style="clear: both;">
+                <input onclick="CountCheck(this)" type="checkbox" th:id="health" th:name="health" value="헬스">
+                <label th:for="health">헬스</label>
+
+                <input onclick="CountCheck(this)" type="checkbox" th:id="pilates" th:name="pilates" value="필라테스">
+                <label th:for="pilates">필라테스</label>
+
+                <input onclick="CountCheck(this)" type="checkbox" th:id="yoga" th:name="yoga" value="요가">
+                <label th:for="yoga">요가</label>
+
+                <input onclick="CountCheck(this)" type="checkbox" th:id="crossfit" th:name="crossfit" value="크로스핏">
+                <label th:for="crossfit">크로스핏</label>
+
+                <input onclick="CountCheck(this)" type="checkbox" th:id="spinning" th:name="spinning" value="스피닝">
+                <label th:for="spinning">스피닝</label>
+
+                <input onclick="CountCheck(this)" type="checkbox" th:id="taebo" th:name="taebo" value="태보">
+                <label th:for="taebo">태보</label>
+            </div>
+
+            <!-- 운동 목적 선택 부분-->
+            <h2 style="float: left; margin-right:10px;">운동 목적</h2>
+            <span>최대 2개까지 선택 가능합니다.</span>
+            <div class="check_box_info" style="clear: both;">
+                <input onclick="CountChecks(this)" type="checkbox" th:id="diet" th:name="diet" value="체중감량">
+                <label th:for="diet">체중감량</label>
+
+                <input onclick="CountChecks(this)" type="checkbox" th:id="staminaUp" th:name="staminaUp" value="체력증가">
+                <label th:for="staminaUp">체력증가</label>
+
+                <input onclick="CountChecks(this)" type="checkbox" th:id="stressRelief" th:name="stressRelief" value="스트레스 해소">
+                <label th:for="stressRelief">스트레스 해소</label>
+
+                <input onclick="CountChecks(this)" type="checkbox" th:id="recover" th:name="recover" value="질병치료">
+                <label th:for="recover">질병치료</label>
+
+                <input onclick="CountChecks(this)" type="checkbox" th:id="bodyp" th:name="bodyp" value="바디프로필">
+                <label th:for="bodyp">바디프로필</label>
+
+                <input onclick="CountChecks(this)" type="checkbox" th:id="etc" th:name="etc">
+                <label th:for="etc">기타</label>
+            </div>
+
+            <!-- 희망 운동 시간 -->
+            <h2 style="float: left; margin-right:10px;">희망 운동 시간</h2>
+            <span>1개만 선택이 가능합니다.</span>
+            <div class="exercise_time">
+                <table>
+                    <tr>
+                        <th>오전</th>
+                        <td>
+                            <input type="checkbox" th:id="am9" th:name="am9" onclick="timeCheck(this)">
+                            <label th:for="am9">AM 9:10 ~ 10:00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="am10" th:name="am10" onclick="timeCheck(this)">
+                            <label th:for="am10">AM 10:10 ~ 11:00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="am11" th:name="am11" onclick="timeCheck(this)">
+                            <label th:for="am11">AM 11:10 ~ 12:00</label>
+                        </td>
+                        <th>오후</th>
+                        <td>
+                            <input type="checkbox" th:id="pm1" th:name="pm1" onclick="timeCheck(this)">
+                            <label th:for="pm1">PM 1 : 10 ~ 2 : 00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="pm2" th:name="pm2" onclick="timeCheck(this)">
+                            <label th:for="pm2">PM 2 : 10 ~ 3 : 00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="pm3" th:name="pm3" onclick="timeCheck(this)">
+                            <label th:for="pm3">PM 3 : 10 ~ 4 : 00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="pm4" th:name="pm4" onclick="timeCheck(this)">
+                            <label th:for="pm5">PM 4 : 10 ~ 5 : 00</label>
+                        </td>
+                        <th>야간</th>
+                        <td>
+                            <input type="checkbox" th:id="pm7" th:name="pm7" onclick="timeCheck(this)">
+                            <label th:for="pm7">PM 7 : 10 ~ 8 : 00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="pm8" th:name="pm8" onclick="timeCheck(this)">
+                            <label th:for="pm7">PM 8 : 10 ~ 9 : 00</label>
+                            <br><br>
+                            <input type="checkbox" th:id="pm9" th:name="pm9" onclick="timeCheck(this)">
+                            <label th:for="pm7">PM 9 : 10 ~ 10 : 00</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p>시간 선택은 필라테스, 요가, 크로스핏, 스피닝, 태보에 한하여 선택하시면 됩니다.</p>
+                            <p>헬스의 경우 따로 시간대를 선택하지 않으셔도 되고, 헬스 운영시간은</p>
+                            <p>AM 6 : 00 ~ PM 11 : 00 까지 입니다.</p>
+                            <p>그리고 개인 운동복의 경우 헬스, 크로스핏은 티셔츠, 반바지가 지원이 되나 요가, 필라테스, 스피닝, 태보는</p>
+                            <p>별도의 개인 운동복을 준비하셔야 합니다.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <input type="button" class="red_button" value="등록하기(결제하기)" onclick="">
+    </form>
+</div>
+
+
+<div class="footer">
+    <p>Footer</p>
+</div>
+
+</body>
+</html>
+
+
